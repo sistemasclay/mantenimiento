@@ -9,7 +9,7 @@
     }else
     {
     ?>
-  <h1>INICIO SESIÓN</h1>
+  <h1>INICIO SESIÓN BLA BLA BLA</h1>
 
    <form class="ui form" action="form_submit_login.php" method="post">
      <table align="center" width="20%" height="220" class="ui table">
