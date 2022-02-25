@@ -1,0 +1,74 @@
+FECHA: 2017-06-14 12:54:53. ERROR: postgres7 error: [-1: ERROR:  no existe la columna t.unidades_desperdicio
+LINE 30:       coalesce(t.unidades_desperdicio,'0') ud
+                        ^] in EXECUTE("SELECT 	coalesce(t.indicador_1, '1') indicador_1,
+						coalesce(t.indicador_2, '1') indicador_2,
+						coalesce(t.indicador_3, '1') indicador_3,
+						coalesce(t.indicador_4, '1') indicador_4,
+						coalesce(t.indicador_5, '1') indicador_5,
+						coalesce(t.indicador_6, '1') indicador_6,
+						coalesce(t.indicador_7, '1') indicador_7,
+						coalesce(t.tiempo_maquina, 1) tiempo_maquina,
+						coalesce(t.unidades_conteo, '1') unidades_conteo,
+						coalesce(t.tiempo_hombre, 1) tiempo_hombre,
+						coalesce(t.tiempo_turno, 1) tiempo_turno,
+						coalesce(t.tiempo_paro_prog, 1) tiempo_paro_prog,
+						coalesce(t.tiempo_paro_no_p, 1) tiempo_paro_no_p,
+						coalesce(t.tiempo_paro_g1, 1) tiempo_paro_g1,
+						coalesce(t.tiempo_paro_g2, 1) tiempo_paro_g2,
+						coalesce(t.tiempo_paro_g3, 1) tiempo_paro_g3,
+						coalesce(t.tiempo_total_paro, 1) tiempo_total_paro,
+						coalesce(t.tiempo_std_prog, 1) tiempo_std_prog,
+						coalesce(t.dato_extra, 1) dato_extra,
+						coalesce(t.desperdicio_1, 1)desperdicio_1,
+						coalesce(t.desperdicio_2, 1)desperdicio_2,
+						coalesce(t.desperdicio_3, 1)desperdicio_3,
+						coalesce(t.produccion_final, 1) produccion_final,
+						coalesce(pp.var1, '1') var1,
+						coalesce(pp.var2, '1') var2,
+						coalesce(pp.var3, '1') var3,
+						coalesce(p.dato_extra1, '1') dato_extra1,
+						coalesce(p.dato_extra2, '1') dato_extra2,
+						coalesce(p.dato_extra3, '1') dato_extra3,
+						coalesce(t.unidades_desperdicio,'0') ud
+				FROM turnos AS t
+					LEFT JOIN producto_proceso pp ON pp.id_proceso = t.id_proceso AND pp.id_producto = t.id_producto 
+					LEFT JOIN productos p ON p.id_producto=t.id_producto
+				WHERE t.id_proceso=27 AND t.id_turno = 752")
+
+FECHA: 2017-06-14 13:54:28. ERROR: postgres7 error: [-1: ERROR:  no existe la columna t.unidades_desperdicio
+LINE 30:       coalesce(t.unidades_desperdicio,'0') ud
+                        ^] in EXECUTE("SELECT 	coalesce(t.indicador_1, '1') indicador_1,
+						coalesce(t.indicador_2, '1') indicador_2,
+						coalesce(t.indicador_3, '1') indicador_3,
+						coalesce(t.indicador_4, '1') indicador_4,
+						coalesce(t.indicador_5, '1') indicador_5,
+						coalesce(t.indicador_6, '1') indicador_6,
+						coalesce(t.indicador_7, '1') indicador_7,
+						coalesce(t.tiempo_maquina, 1) tiempo_maquina,
+						coalesce(t.unidades_conteo, '1') unidades_conteo,
+						coalesce(t.tiempo_hombre, 1) tiempo_hombre,
+						coalesce(t.tiempo_turno, 1) tiempo_turno,
+						coalesce(t.tiempo_paro_prog, 1) tiempo_paro_prog,
+						coalesce(t.tiempo_paro_no_p, 1) tiempo_paro_no_p,
+						coalesce(t.tiempo_paro_g1, 1) tiempo_paro_g1,
+						coalesce(t.tiempo_paro_g2, 1) tiempo_paro_g2,
+						coalesce(t.tiempo_paro_g3, 1) tiempo_paro_g3,
+						coalesce(t.tiempo_total_paro, 1) tiempo_total_paro,
+						coalesce(t.tiempo_std_prog, 1) tiempo_std_prog,
+						coalesce(t.dato_extra, 1) dato_extra,
+						coalesce(t.desperdicio_1, 1)desperdicio_1,
+						coalesce(t.desperdicio_2, 1)desperdicio_2,
+						coalesce(t.desperdicio_3, 1)desperdicio_3,
+						coalesce(t.produccion_final, 1) produccion_final,
+						coalesce(pp.var1, '1') var1,
+						coalesce(pp.var2, '1') var2,
+						coalesce(pp.var3, '1') var3,
+						coalesce(p.dato_extra1, '1') dato_extra1,
+						coalesce(p.dato_extra2, '1') dato_extra2,
+						coalesce(p.dato_extra3, '1') dato_extra3,
+						coalesce(t.unidades_desperdicio,'0') ud
+				FROM turnos AS t
+					LEFT JOIN producto_proceso pp ON pp.id_proceso = t.id_proceso AND pp.id_producto = t.id_producto 
+					LEFT JOIN productos p ON p.id_producto=t.id_producto
+				WHERE t.id_proceso=28 AND t.id_turno = 704")
+
