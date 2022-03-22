@@ -68,7 +68,26 @@ switch ($_POST["tipo"])
 		$repor->excel_cronograma($sql,$_POST["fechai"],$_POST["fechaf"]);
 	break;
 	case"3":
-		$sql = "SELECT	m.id_maquina id_maquina,
+		if ($_POST["todas"])
+		{
+			$sql = "SELECT	m.id_maquina id_maquina,
+						m.nombre_maquina nombre_maquina,
+						u.id_user id_usuario,
+						u.user_name nombre_usuario,
+						hv.fecha fecha,
+						hv.notas notas
+				FROM 	hv_maquinas hv
+					INNER JOIN maquinas m ON m.id_maquina = hv.id_maquina
+					INNER JOIN usuarios u ON u.id_user = hv.id_usuario
+				WHERE (hv.fecha between '".$_POST["fechai"]."' AND '".$_POST["fechaf"]."')
+				ORDER BY hv.id_maquina ASC, hv.fecha DESC
+				";
+
+			$repor->excel_hoja_vida_todas($sql,$_POST["fechai"],$_POST["fechaf"]);
+		}
+		else
+		{
+			$sql = "SELECT	m.id_maquina id_maquina,
 						m.nombre_maquina nombre_maquina,
 						u.id_user id_usuario,
 						u.user_name nombre_usuario,
@@ -81,7 +100,8 @@ switch ($_POST["tipo"])
 				ORDER BY hv.fecha
 				";
 
-		$repor->excel_hoja_vida($sql,$_POST["fechai"],$_POST["fechaf"],$_POST["cod_maquina"]);
+			$repor->excel_hoja_vida($sql,$_POST["fechai"],$_POST["fechaf"],$_POST["cod_maquina"]);
+		}		
 	break;
 	case '4':
 	$fechai = $_POST["fechai"];

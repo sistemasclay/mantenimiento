@@ -45,6 +45,15 @@ $pagina = $pagina.'?seccion=reportes';
 								</select>
 							</td>
 						</tr>
+						<tr style="display: none;" id="seccion_maquina2">
+							<td class="etq">
+								Todas las máquinas
+							</td>
+							<td>
+							 <input type="checkbox" id="todas" name="todas" onchange="checkboxCheck()">
+							</td>
+						</tr>
+
 						<tr style="display: none;" id="seccion_maquina">
 							<td class="etq">
 								Máquina
@@ -64,6 +73,7 @@ $pagina = $pagina.'?seccion=reportes';
 									<input list="insumo" name="cod_maquina" id="cod_maquina" class="lista" >
 							</td>
 						</tr>
+						
 						<tr>
 							<td colspan="2">
 								<input class="ui yellow button"  type="submit" value="Ver Reporte"/>
@@ -131,14 +141,28 @@ function tipoReporte() {
 	var reporte = document.getElementById("tipo").value;
 	if(reporte == 3){
 		document.getElementById("seccion_maquina").style.display = 'table-row';
+		document.getElementById("seccion_maquina2").style.display = 'table-row';
 	}else if (reporte ==4) {
-		document.getElementById("seccion_maquina").style.display = 'table-row';
-
+		document.getElementById("seccion_maquina").style.display = 'table-row';		
+		document.getElementById("seccion_maquina2").style.display = 'none';
 	}
 	else{
 		document.getElementById("seccion_maquina").style.display = 'none';
+		document.getElementById("seccion_maquina2").style.display = 'none';
 	}
 
+}
+
+function checkboxCheck() {
+	var checkbox = document.getElementById("todas").checked
+	if(checkbox){
+		document.getElementById("cod_maquina").disabled = true;
+		document.getElementById("seccion_maquina").style.display = 'none';
+	}
+	else{
+		document.getElementById("cod_maquina").disabled = false;
+		document.getElementById("seccion_maquina").style.display = 'table-row';
+	}
 }
 </script>
             <!-- fin div principal-->

@@ -213,120 +213,113 @@ if ($_GET["codigo_orden"]) {
 		<?php if ($_SESSION["grade"] == 1) {
 			echo "<div class='ui sixteen wide column'>";
 		} else {
-			echo "		<div class='ui ten wide column'>";
+			echo "<div class='ui ten wide column'>";
 		} ?>
 
 		<?php if (!$recordSet->EOF) {
-
 		?>
-			<div id="<?php if ($_SESSION["grade"] >= 1) echo "lista";
-						else echo "lista2"; ?>" class="scrollstyle">
+			<div id="<?php if ($_SESSION["grade"] >= 1){ echo "lista";} else{ echo "lista2";} ?>" class="scrollstyle">
 				<table class="ui inverted yellow celled table">
 					<tr>
 						<th>Maquina</th>
 						<th>Sistema</th>
 						<?php
-						if ($datos->estado_configuracion(4)) echo '<th>Sub-Sistema</th>';
-						if ($datos->estado_configuracion(5)) echo '<th>Pieza</th>';
-						if ($datos->estado_configuracion(6)) echo '<th>Actividad</th>';
+							if ($datos->estado_configuracion(4)) echo '<th>Sub-Sistema</th>';
+							if ($datos->estado_configuracion(5)) echo '<th>Pieza</th>';
+							if ($datos->estado_configuracion(6)) echo '<th>Actividad</th>';
 						?>
 						<th>Encargado</th>
 						<th>Fecha</th>
 						<?php
-						if ($_SESSION["grade"] == 1) echo '<th>Observaciones</th>';
+							if ($_SESSION["grade"] == 1) echo '<th>Observaciones</th>';
 						?>
+						<th>Estado</th>
 						<th>Editar</th>
 						<th>Cancelar<br>Orden</th>
 						<th>Iniciar/Cerrar Orden</th>
 					</tr>
-				<?php } else {
-				echo "<h1>No hay ninguna orden de trabajo.... </h1>";
-			} ?>
 				<?php
+					$color = array('impar', 'par');
+					$c_estilo = 0;
 
-				//echo $_SESSION["user"];
+					while (!$recordSet->EOF) {
+						if ($c_estilo % 2 != 0)
+							echo '<tr class="' . $color[0] . '">';
+						else
+							echo '<tr class="' . $color[1] . '">';
+						$datos_orden = $datos->detalle_proceso($recordSet->fields["id_maquina"]);
+						$datos_sistema = $datos->detalle_sistema($recordSet->fields["id_sistema"]);
+						$datos_sub_sistema = $datos->detalle_sub_sistema($recordSet->fields["id_sub_sistema"]);
+						$datos_pieza = $datos->detalle_pieza($recordSet->fields["id_pieza"]);
+						$datos_actividad = $datos->detalle_actividad($recordSet->fields["id_actividad"]);
+						if ($recordSet->fields["id_usuario"]) {
+							$datos_usuario = $datos->detalle_usuario($recordSet->fields["id_usuario"]);
+						} else {
+							$datos_usuario = "";
+						}
 
-				$test = $recordSet->fields["id_orden_trabajo"];
-				$imagen = $datos->verificarOrdenP($test);
-				echo $imagen;
-				//echo '<br>';
-				//echo $recordSet;
-				//echo '<br>';
-				//echo $recordSet;
-				$color = array('impar', 'par');
-				$c_estilo = 0;
+						$estado = $recordSet->fields["estado"];
+						if ($estado == 0) {
+							$desc_estado = "Cancelada";
+						}
+						if ($estado == 1) {
+							$desc_estado = "Activa";
+						}
+						if ($estado == 2) {
+							$desc_estado = "Cerrada";
+						}
 
-				while (!$recordSet->EOF) {
-					if ($c_estilo % 2 != 0)
-						echo '<tr class="' . $color[0] . '">';
-					else
-						echo '<tr class="' . $color[1] . '">';
-					$datos_orden = $datos->detalle_proceso($recordSet->fields["id_maquina"]);
-					$datos_sistema = $datos->detalle_sistema($recordSet->fields["id_sistema"]);
-					$datos_sub_sistema = $datos->detalle_sub_sistema($recordSet->fields["id_sub_sistema"]);
-					$datos_pieza = $datos->detalle_pieza($recordSet->fields["id_pieza"]);
-					$datos_actividad = $datos->detalle_actividad($recordSet->fields["id_actividad"]);
-					if ($recordSet->fields["id_usuario"]) {
-						$datos_usuario = $datos->detalle_usuario($recordSet->fields["id_usuario"]);
-					} else {
-						$datos_usuario = "";
+						echo "<td>" . $datos_orden->fields['nombre_maquina'] . "</td>";
+
+						echo "<td>" . $datos_sistema->fields['nombre_sistema'] . "</td>";
+
+						if ($datos->estado_configuracion(4)) echo "<td>" . $datos_sub_sistema->fields['nombre_sub_sistema'] . "</td>";
+
+						if ($datos->estado_configuracion(5)) echo "<td>" . $datos_pieza->fields['nombre_pieza'] . "</td>";
+
+						if ($datos->estado_configuracion(6)) echo "<td>" . $datos_actividad->fields['nombre_actividad'] . "</td>";
+
+						echo "<td>" . $datos_usuario->fields['user_name'] . " " . $datos_usuario->fields['user_lastname'] . "</td>";
+
+						echo "<td>" . $recordSet->fields["fecha_orden"] . "</td>";
+
+						if ($_SESSION["grade"] == 1) {
+							echo "<td>" . $recordSet->fields["observaciones"] . "</td>";
+						}
+
+						echo "<td>" . $desc_estado . "</td>";
+
+						echo "<td><a href=$pagina&&codigo_orden="
+							. $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes/edit1.png\"> </a></td>";
+
+						echo "<td><a onclick='return confirm(\"¿Seguro que desea eliminar  " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=formsubmit_config.php?seccion=eliminar_orden&codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes/delete3.png\"> </a></td>
+
+		";
+
+
+						$valor = $recordSet->fields["id_orden_trabajo"];
+						$cambio = $datos->verificarOrdenP($valor);
+
+						if ($cambio == null) {
+							echo "<td style=\" width: 67px; height: 50px;\"><a onclick='return confirm(\"¿Seguro que desea empezar  " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=formsubmit_config.php?seccion=iniciar_orden&codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes_dash/play1.png\"  width=70% > </a></td>
+					</tr>
+				";
+						} else {
+							echo "<td style=\" width: 67px; height: 50px;\"><a onclick='return confirm(\"¿Seguro que desea cerrar la orden " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=registros.php?codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . ">
+				<img src=\"imagenes/candado.png\"> </a></td></tr>";
+						}
+
+
+
+						$c_estilo++;
+						$recordSet->MoveNext();
 					}
-
-					$estado = $recordSet->fields["estado"];
-					if ($estado == 0) {
-						$desc_estado = "Cancelada";
-					}
-					if ($estado == 1) {
-						$desc_estado = "Activa";
-					}
-					if ($estado == 2) {
-						$desc_estado = "Cerrada";
-					}
-
-					echo "<td>" . $datos_orden->fields['nombre_maquina'] . "</td>";
-					echo "<td>" . $datos_sistema->fields['nombre_sistema'] . "</td>";
-					if ($datos->estado_configuracion(4)) echo "<td>" . $datos_sub_sistema->fields['nombre_sub_sistema'] . "</td>";
-					if ($datos->estado_configuracion(5)) echo "<td>" . $datos_pieza->fields['nombre_pieza'] . "</td>";
-					if ($datos->estado_configuracion(6)) echo "<td>" . $datos_actividad->fields['nombre_actividad'] . "</td>";
-					echo "<td>" . $datos_usuario->fields['user_name'] . " " . $datos_usuario->fields['user_lastname'] . "</td>";
-					echo "<td>" . $recordSet->fields["fecha_orden"] . "</td>";
-
-					if ($_SESSION["grade"] == 1) {
-						echo "<td>" . $recordSet->fields["observaciones"] . "</td>";
-					}
-
-					echo "<td><a href=$pagina&&codigo_orden="
-						. $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes/edit1.png\"> </a></td>";
-
-					echo "<td><a onclick='return confirm(\"¿Seguro que desea eliminar  " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=formsubmit_config.php?seccion=eliminar_orden&codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes/delete3.png\"> </a></td>
-
-	";
-
-
-					$valor = $recordSet->fields["id_orden_trabajo"];
-					$cambio = $datos->verificarOrdenP($valor);
-
-					if ($cambio == null) {
-						// echo "<td style=\" width: 67px; height: 50px;\"><a onclick='return confirm(\"¿Seguro que desea empezar  ".$recordSet->fields['id_orden_trabajo']."?\")' href=formsubmit_config.php?seccion=iniciar_orden&codigo_orden=".$recordSet->fields['id_orden_trabajo']."><img src=\"imagenes_dash/play1.png\"  width=100% > </a></td>
-						// 		</tr>
-						// 	";.
-						echo "<td style=\" width: 67px; height: 50px;\"><a onclick='return confirm(\"¿Seguro que desea empezar  " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=formsubmit_config.php?seccion=iniciar_orden&codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . "><img src=\"imagenes_dash/play1.png\"  width=70% > </a></td>
-				</tr>
-			";
-					} else {
-						echo "<td style=\" width: 67px; height: 50px;\"><a onclick='return confirm(\"¿Seguro que desea cerrar la orden " . $recordSet->fields['id_orden_trabajo'] . "?\")' href=registros.php?codigo_orden=" . $recordSet->fields['id_orden_trabajo'] . ">
-			<img src=\"imagenes/candado.png\"> </a></td></tr>";
-					}
-
-
-
-					$c_estilo++;
-					$recordSet->MoveNext();
-				}
 				?>
 				</table>
 			</div>
-
+		<?php } else {
+			echo "<h1>No hay ninguna orden de trabajo.... </h1>";
+		} ?>
 	</div>
 
 </div>

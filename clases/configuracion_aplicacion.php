@@ -929,7 +929,7 @@ class configuracion_aplicacion
 	function listar_ordenes_trabajo()
 	{
 		include("conexion.php");
-		$sql =	"SELECT * FROM ordenes_trabajo WHERE estado=1 ORDER BY id_orden_trabajo";
+		$sql =	"SELECT * FROM ordenes_trabajo ORDER BY fecha_orden DESC, id_orden_trabajo";
 		$result = $conexion_pg->Execute($sql);
 		if ($result === false) {
 			echo 'error al listar: ' . $conexion_pg->ErrorMsg() . '<BR>';
@@ -941,7 +941,7 @@ class configuracion_aplicacion
 	function listar_ordenes_trabajo_usuario($usuario)
 	{
 		include("conexion.php");
-		$sql =	"SELECT * FROM ordenes_trabajo WHERE estado=1 AND id_usuario = $usuario ORDER BY id_orden_trabajo";
+		$sql =	"SELECT * FROM ordenes_trabajo WHERE id_usuario = $usuario ORDER BY fecha_orden DESC, id_orden_trabajo";
 		$result = $conexion_pg->Execute($sql);
 		if ($result === false) {
 			echo 'error al listar: ' . $conexion_pg->ErrorMsg() . '<BR>';

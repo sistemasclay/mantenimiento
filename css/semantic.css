@@ -5217,7 +5217,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 
 @media only screen and (min-width: 1200px) {
  .ui.container {
-   width: 1127px;
+   width: 100%;
    margin-left: auto !important;
    margin-right: auto !important;
  }
@@ -20217,7 +20217,7 @@ ol.ui.horizontal.list li:before,
 .ui.form input[type="text"],
 .ui.form input[type="file"],
 .ui.form input[type="url"] {
- width: 350px;
+ width: 300px;
  vertical-align: top;
 }
 
